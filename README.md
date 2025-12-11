@@ -7,7 +7,7 @@ Using graph theory algorithms, this tool reveals hidden relationships, identifie
 ## Features
 
 * **Player Search:** Instantly find players and view their network statistics.
-* **Path Finder:** Discover the "Six Degrees of Separation" between two players.
+* **Path Finder:** Discover the relationship between two players （how many players can connect them）.
 * **Centrality Rankings:**
     * **Degree Centrality:** Players with the most teammates.
     * **PageRank:** The most influential players in the network.
@@ -42,7 +42,6 @@ Using graph theory algorithms, this tool reveals hidden relationships, identifie
 4.  **Configuration**
     Open `app.py` and update the `GRAPH_PATH` to point to your data file.
     
-    *Recommended (Relative Path):*
     ```python
     import os
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -67,17 +66,17 @@ Using graph theory algorithms, this tool reveals hidden relationships, identifie
 ```text
 football-network-explorer/
 ├── data/
-│   └── football_network.gexf   # Raw graph data
-├── static/                     # CSS, Images, JS
-├── templates/                  # HTML Templates
+│   └── football_network.gexf  
+├── static/            
+├── templates/          
 │   ├── base.html
 │   ├── home.html
-│   ├── index.html              # Explorer page
+│   ├── index.html
 │   ├── ranking.html
 │   ├── communities.html
 │   ├── result.html
 │   └── player_card.html
-├── app.py                      # Main Flask application
+├── app.py        
 └── README.md
 ```
 ## Algorithmic Details
