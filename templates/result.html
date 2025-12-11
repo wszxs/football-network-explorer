@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    <a href="/" class="btn btn-secondary">Go Back</a>
+{% else %}
+
+    <div class="card player-card mb-4">
+        <div class="card-body d-flex align-items-center">
+            <img src="{{ player.img_url }}" class="player-img me-4" alt="{{ player.name }}">
+            <div>
+                <h2 class="card-title">{{ player.name }}</h2>
+                <p class="mb-1"><strong>Position:</strong> {{ player.position }}</p>
+                <p class="mb-1"><strong>Market Value:</strong> {{ player.market_value }}</p>
+                <p class="mb-1"><strong>Network Connections:</strong> <span class="badge bg-success">{{ degree }} Teammates</span></p>
+            </div>
+        </div>
+    </div>
+
+    {% if path %}
+        <div class="card mb-4 border-primary">
+            <div class="card-header bg-primary text-white">Network Path</div>
+            <div class="card-body">
+                {% if path is string %}
+                    <p>{{ path }}</p>
+                {% else %}
+                    <h4>Connection Chain:</h4>
+                    <ul class="list-group">
+                        {% for step in path %}
+                        <li class="list-group-item">
+                            <strong>{{ step.from.name }}</strong> 
+                            played with 
+                            <strong>{{ step.to.name }}</strong> 
+                            <br>
+                            <small class="text-muted">({{ step.relation }})</small>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+    <h3>Famous Teammates</h3>
+    <div class="row row-cols-2 row-cols-md-4 g-4">
+        {% for mate in teammates %}
+        <div class="col">
+            <div class="card h-100 text-center p-2">
+                <img src="{{ mate.img_url }}" class="mx-auto rounded-circle" style="width:50px;height:50px;" alt="">
+                <div class="card-body p-2">
+                    <h6 class="card-title text-truncate">{{ mate.name }}</h6>
+                    <small class="text-muted">{{ mate.market_value }}</small>
+                    <br>
+                    <a href="/search?name={{ mate.name }}" class="btn btn-sm btn-outline-secondary mt-2">View</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endif %}
+{% endblock %}

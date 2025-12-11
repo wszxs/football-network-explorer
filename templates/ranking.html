@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="py-4">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">🏆 Player Roles Analysis</h2>
+        <p class="text-muted">Different algorithms reveal different types of influence in the football world.</p>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="m-0">🤝 The Connectors</h4>
+                    <small>Most Teammates (Degree)</small>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        {% for p in degree_rank[:20] %}
+                        <div class="list-group-item d-flex align-items-center p-3">
+                            <span class="fw-bold text-muted me-3">#{{ loop.index }}</span>
+                            <img src="{{ p.img_url }}" class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                            <div class="flex-grow-1" style="line-height: 1.2;">
+                                <a href="player?name={{ p.name }}" class="text-decoration-none text-dark fw-bold">{{ p.name }}</a>
+                                <br>
+                                <small class="text-muted">{{ p.team }}</small>
+                            </div>
+                            <span class="badge bg-light text-dark border">{{ p.score }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-header bg-warning text-dark text-center py-3">
+                    <h4 class="m-0">🌉 The Bridges</h4>
+                    <small>Transitional Players (Betweenness)</small>
+                </div>
+                <div class="card-body bg-light p-3">
+                    <p class="small text-muted mb-3">
+                        These players act as bridges between different clubs/leagues. Removing them would disconnect the network.
+                    </p>
+                    <div class="list-group list-group-flush rounded">
+                        {% for p in bridge_rank[:20] %}
+                        <div class="list-group-item d-flex align-items-center p-3">
+                            <span class="fw-bold text-muted me-3">#{{ loop.index }}</span>
+                            <img src="{{ p.img_url }}" class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                            <div class="flex-grow-1" style="line-height: 1.2;">
+                                <a href="/player?name={{ p.name }}" class="text-decoration-none text-dark fw-bold">{{ p.name }}</a>
+                            </div>
+                            <span class="badge bg-warning text-dark">{{ p.score }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-header bg-success text-white text-center py-3">
+                    <h4 class="m-0">👑 The Icons</h4>
+                    <small>Squad Pillars (PageRank)</small>
+                </div>
+                <div class="card-body bg-light p-3">
+                    <p class="small text-muted mb-3">
+                        High-quality connections. These players are often the captains or long-serving stars of top teams.
+                    </p>
+                    <div class="list-group list-group-flush rounded">
+                        {% for p in core_rank[:20] %}
+                        <div class="list-group-item d-flex align-items-center p-3">
+                            <span class="fw-bold text-muted me-3">#{{ loop.index }}</span>
+                            <img src="{{ p.img_url }}" class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;">
+                            <div class="flex-grow-1" style="line-height: 1.2;">
+                                <a href="/player?name={{ p.name }}" class="text-decoration-none text-dark fw-bold">{{ p.name }}</a>
+                            </div>
+                            <span class="badge bg-success">{{ p.score }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

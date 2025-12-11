@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        
+        <div class="col-md-5 col-lg-4 mb-4">
+            <div class="card text-white border-0 shadow-lg" style="background: linear-gradient(145deg, #1e1e2f, #2a2a40); border-radius: 20px; overflow: hidden;">
+                <div style="height: 120px; background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), linear-gradient(to right, #ffd700, #fdb931); opacity: 0.9;"></div>
+                
+                <div class="card-body text-center position-relative" style="margin-top: -80px;">
+                    <div class="mx-auto p-1 bg-white rounded-circle shadow" style="width: 160px; height: 160px;">
+                        <img src="{{ player.img_url }}" class="rounded-circle w-100 h-100" style="object-fit: cover;" alt="{{ player.name }}">
+                    </div>
+                    
+                    <h2 class="mt-3 fw-bold">{{ player.name }}</h2>
+                    <p class="text-warning mb-1">{{ stats.team }}</p>
+                    <span class="badge bg-secondary mb-4">{{ player.position }}</span>
+
+                    <div class="row text-center mt-2 border-top border-secondary pt-3">
+                        <div class="col-4 border-end border-secondary">
+                            <h5 class="fw-bold mb-0">{{ stats.degree_raw }}</h5>
+                            <small class="text-muted" style="font-size: 10px;">TEAMMATES</small>
+                        </div>
+                        <div class="col-4 border-end border-secondary">
+                            <h5 class="fw-bold mb-0">{{ player.market_value }}</h5>
+                            <small class="text-muted" style="font-size: 10px;">VALUE</small>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="fw-bold mb-0">{{ stats.league[:3].upper() }}</h5>
+                            <small class="text-muted" style="font-size: 10px;">LEAGUE</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7 col-lg-6">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="m-0 fw-bold text-primary">📊 Network Analysis Profile</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small">
+                        This chart visualizes the player's role in the global football network compared to thousands of other players.
+                    </p>
+                    
+                    <div style="max-width: 400px; margin: 0 auto;">
+                        <canvas id="playerRadar"></canvas>
+                    </div>
+
+                    <hr>
+                    
+                    <div class="mt-3">
+                        <ul class="list-group list-group-flush small">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><strong>Connectivity (Degree):</strong> <br><span class="text-muted">How many unique teammates they have.</span></span>
+                                <span class="badge bg-primary rounded-pill">{{ stats.degree_rating }}/100</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><strong>Importance (PageRank):</strong> <br><span class="text-muted">Quality of connections (played with stars).</span></span>
+                                <span class="badge bg-success rounded-pill">{{ stats.core_rating }}/100</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><strong>Bridge Factor (Betweenness):</strong> <br><span class="text-muted">Ability to connect different clubs/leagues.</span></span>
+                                <span class="badge bg-warning text-dark rounded-pill">{{ stats.bridge_rating }}/100</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ctx = document.getElementById('playerRadar').getContext('2d');
+    const playerRadar = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: [
+                'Social Reach (Degree)', 
+                'Star Power (PageRank)', 
+                'Bridge Factor (Betweenness)'
+            ],
+            datasets: [{
+                label: '{{ player.name }}',
+                data: [{{ stats.degree_rating }}, {{ stats.core_rating }}, {{ stats.bridge_rating }}],
+                fill: true,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgb(54, 162, 235)',
+                pointBackgroundColor: 'rgb(54, 162, 235)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(54, 162, 235)'
+            },
+            {
+                label: 'Average Player', # 对比用的基准线
+                data: [50, 50, 50],
+                fill: true,
+                backgroundColor: 'rgba(200, 200, 200, 0.1)',
+                borderColor: 'rgba(200, 200, 200, 0.5)',
+                pointRadius: 0
+            }]
+        },
+        options: {
+            elements: {
+                line: { borderWidth: 3 }
+            },
+            scales: {
+                r: {
+                    angleLines: { display: true },
+                    suggestedMin: 0,
+                    suggestedMax: 100,
+                    ticks: { display: false } // 隐藏刻度数字，更美观
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

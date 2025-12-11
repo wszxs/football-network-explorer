@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="py-4">
+    <h2 class="mb-4">🧩 Identified Communities</h2>
+    <div class="row g-4">
+        {% for comm in communities %}
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header">
+                    <h4 class="m-0 text-primary">{{ comm.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text text-muted">
+                        {{ comm.description }} <br>
+                        <span class="badge bg-secondary">{{ comm.size }} Members</span>
+                    </p>
+                    <hr>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for player in comm.top_members %}
+                        <a href="/search?name={{ player.name }}" class="btn btn-sm btn-outline-dark">
+                            {{ player.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

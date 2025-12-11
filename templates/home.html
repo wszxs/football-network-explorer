@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm text-center" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('https://www.transparenttextures.com/patterns/cubes.png'); opacity: 0.1;"></div>
+    <div class="container-fluid py-5">
+        <h1 class="display-3 fw-bold">Football Network Analysis</h1>
+        <p class="col-md-8 fs-4 mx-auto">
+            Discover hidden connections between <strong>{{ stats.nodes }}</strong> players and
+            <strong>{{ stats.edges }}</strong> teammate relationships across Europe's top leagues.
+        </p>
+
+        <div class="card p-3 mx-auto shadow-lg" style="max-width: 500px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+            <form action="/lookup" method="POST" class="d-flex gap-2">
+                <input type="text" name="name" class="form-control form-control-lg border-0" placeholder="Enter player name (e.g. Rice)..." required style="border-radius: 8px;">
+                <button type="submit" class="btn btn-warning btn-lg fw-bold px-4" style="border-radius: 8px;">
+                    View Card
+                </button>
+            </form>
+            <div class="text-start mt-2 ms-1">
+                <small class="text-white-50">Try:
+                    <a href="/player/Bukayo Saka" class="text-white text-decoration-underline">Saka</a>,
+                    <a href="/player/Erling Haaland" class="text-white text-decoration-underline">Haaland</a>,
+                    <a href="/player/Son Heung-min" class="text-white text-decoration-underline">Son</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row align-items-md-stretch">
+    <div class="col-md-4 mb-3">
+        <div class="h-100 p-4 text-white bg-dark rounded-3 shadow-sm">
+            <h3>🔍 Path Finder</h3>
+            <p>Ever wondered how Harry Kane is connected to Messi? Input any two players to visualize the shortest chain of teammates connecting them.</p>
+            <a href="/explorer" class="btn btn-outline-light">Find Paths</a>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="h-100 p-4 bg-light border rounded-3 shadow-sm">
+            <h3 class="text-dark">🏆 Top Connectors</h3>
+            <p class="text-muted">Who is the ultimate "bridge" in world football? See the ranking of players with the most diverse network of teammates.</p>
+            <a href="/rankings" class="btn btn-outline-dark">View Rankings</a>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="h-100 p-4 text-white bg-primary rounded-3 shadow-sm" style="background-color: #0d6efd;">
+            <h3>🧩 Communities</h3>
+            <p>Our algorithms detected <strong>{{ stats.communities }}</strong> distinct player clusters. Explore these "Golden Generations" and squad groups.</p>
+            <a href="/communities" class="btn btn-outline-light">Explore Clusters</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

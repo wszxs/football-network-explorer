@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-4">Football Player Network</h1>
+    <p class="lead">Exploring connections between {{ stats.nodes }} players and {{ stats.edges }} relationships.</p>
+    
+    <div class="card p-4 mt-4 mx-auto" style="max-width: 600px;">
+        <form action="/search" method="GET">
+            <div class="mb-3">
+                <label class="form-label fw-bold">Find a Player</label>
+                <input type="text" name="name" class="form-control form-control-lg" placeholder="e.g. Harry Kane" required>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label text-muted">Compare with (Optional - For Path Finding)</label>
+                <input type="text" name="target" class="form-control" placeholder="e.g. Lionel Messi">
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-lg w-100">Analyze Network</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
